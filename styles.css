@@ -373,6 +373,9 @@ a {
    markup, identical rules, five fillings. */
 
 .ds {
+  --glyph-ok: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='%23000'%20stroke-width='2.6'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M20%206%209%2017l-5-5'/%3E%3C/svg%3E");
+  --glyph-warn: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='%23000'%20stroke-width='2.2'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Ccircle%20cx='12'%20cy='12'%20r='9'/%3E%3Cpath%20d='M12%207.5V12l3%201.8'/%3E%3C/svg%3E");
+  --glyph-danger: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='%23000'%20stroke-width='2.6'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M18%206%206%2018M6%206l12%2012'/%3E%3C/svg%3E");
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-ui);
@@ -721,9 +724,12 @@ a {
   background: transparent;
 }
 
-/* The mark is a shape before it is a colour: a disc settled, a diamond
-   waiting, a ring refused. Graphite and NightBrowser have no hue to spend, so
-   the shape is the whole signal there; everywhere else it is one more. */
+/* The badge's mark. Slate draws a dot and lets the label carry the meaning;
+   the other four draw an icon, because that is what their documents say the
+   mark is for — "the icon carries the rest", "shown with icons", "shape and
+   words". The glyph is a mask over currentColor, so it takes the badge's own
+   colour in a system that has one and its luminance step in a system that
+   does not. */
 .ds-dot {
   width: 7px;
   height: 7px;
@@ -732,18 +738,34 @@ a {
   flex: none;
 }
 
-.ds-badge[data-tone='warn'] .ds-dot {
-  border-radius: 1px;
-  rotate: 45deg;
-  width: 6px;
-  height: 6px;
+.ds[data-mark='icon'] .ds-badge[data-tone] .ds-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 0;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
 
-.ds-badge[data-tone='danger'] .ds-dot {
-  background: transparent;
-  border: 1.5px solid currentColor;
-  width: 8px;
-  height: 8px;
+/* settled — a check */
+.ds[data-mark='icon'] .ds-badge[data-tone='ok'] .ds-dot {
+  -webkit-mask-image: var(--glyph-ok);
+  mask-image: var(--glyph-ok);
+}
+
+/* pending — a clock */
+.ds[data-mark='icon'] .ds-badge[data-tone='warn'] .ds-dot {
+  -webkit-mask-image: var(--glyph-warn);
+  mask-image: var(--glyph-warn);
+}
+
+/* rejected — a cross */
+.ds[data-mark='icon'] .ds-badge[data-tone='danger'] .ds-dot {
+  -webkit-mask-image: var(--glyph-danger);
+  mask-image: var(--glyph-danger);
 }
 
 .ds[data-status='outline'] .ds-badge[data-tone] .ds-dot {
@@ -754,7 +776,6 @@ a {
   color: var(--ink-faint);
 }
 
-/* Fields */
 .ds-field {
   display: flex;
   flex-direction: column;

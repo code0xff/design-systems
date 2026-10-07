@@ -29,7 +29,12 @@
   --shadow: none;
   --grid: transparent;
   --dots: transparent;
-  --status-style: tint;
+  /* Two things about a status badge are not colours and so are not tokens:
+     whether the kind is shown as a tint or an outline, and whether its mark
+     is a dot or an icon. Both live beside each system in app.js and arrive as
+     data-status and data-mark. Slate documents a dot and lets the label carry
+     the meaning; the other four document an icon ("the icon carries the
+     rest", "shown with icons", "shape and words"). */
   /* A trend's colour, and the readable half of a status colour. Charcoal and
      Injective specify their status hues as TOAST BORDERS only (35% L at .7
      alpha), which is correct on a border and unreadable as text — so the
@@ -164,8 +169,12 @@
   --accent-soft: rgba(255, 255, 255, 0.08);
   --on-accent: #050505;
   --focus: #cfcfd6;
-  /* Status is shape, luminance and a word, never hue. */
-  --ok: #fafafa;
+  /* Status is icon, luminance and a word, never hue. The document names
+     luminance as one of the three signals but not its direction; a failure
+     asks to be looked at and a settled row does not, so failure takes the
+     brightest step and success a quieter one. That direction is the derived
+     part — the absence of hue is not. */
+  --ok: #9d9da6;
   --ok-soft: rgba(255, 255, 255, 0.08);
   --warn: #cfcfd6;
   --warn-soft: rgba(255, 255, 255, 0.08);
@@ -209,7 +218,7 @@
   --accent: #050505;
   --accent-soft: rgba(0, 0, 0, 0.06);
   --on-accent: #f7f7f8;
-  --ok: #050505;
+  --ok: #45454d;
   --ok-soft: rgba(0, 0, 0, 0.06);
   --warn: #2c2c33;
   --warn-soft: rgba(0, 0, 0, 0.06);
@@ -259,7 +268,6 @@
   --danger-text: oklch(72% 0.15 25);
   --grid: rgba(255, 255, 255, 0.04);
   --dots: rgba(255, 255, 255, 0.04);
-  --status-style: outline;
   --focus: #9d9da6;
 
   --r-ctl: 8px;
@@ -350,7 +358,6 @@
   --grid: transparent;
   --focus: #4d3dff;
   --dots: rgba(238, 239, 255, 0.05);
-  --status-style: outline;
 
   --r-ctl: 8px;
   --r-field: 8px;
@@ -396,14 +403,13 @@
   --accent: #171719;
   --accent-soft: #eeeeef;
   --on-accent: #ffffff;
-  --ok: #171719;
+  --ok: #66666c;
   --ok-soft: #eeeeef;
   --warn: #66666c;
   --warn-soft: #eeeeef;
   --danger: #171719;
   --danger-soft: #eeeeef;
   --dots: rgba(23, 23, 25, 0.06);
-  --status-style: outline;
   /* The border itself becomes `text` on focus; there is no second outline. */
   --focus: #171719;
   --focus-ring: 0px;
@@ -446,7 +452,7 @@
   --accent: #f2f2f3;
   --accent-soft: #232326;
   --on-accent: #111112;
-  --ok: #f2f2f3;
+  --ok: #a3a3aa;
   --ok-soft: #232326;
   --warn: #a3a3aa;
   --warn-soft: #232326;

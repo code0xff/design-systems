@@ -8,6 +8,7 @@ const SYSTEMS = [
     schemes: ['dark', 'light'],
     preferred: 'dark',
     status: 'tint',
+    mark: 'icon',
     note: '색 없음 · JetBrains Mono',
     swatch: ['#050505', '#fafafa'],
     line: '휘도만으로 위계를 만든다. 성공도 실패도 색이 아니라 밝기와 낱말로 말한다.',
@@ -18,6 +19,7 @@ const SYSTEMS = [
     schemes: ['light', 'dark'],
     preferred: 'light',
     status: 'tint',
+    mark: 'dot',
     note: '보라 악센트 하나 · Wanted Sans',
     swatch: ['#faf9fb', '#6d5bd0'],
     line: '라일락이 도는 중성색 위에 상태색과 보라 악센트 하나. 누르는 것은 모두 알약이다.',
@@ -28,6 +30,7 @@ const SYSTEMS = [
     schemes: ['dark', 'light'],
     preferred: 'dark',
     status: 'outline',
+    mark: 'icon',
     note: '외곽선만 · 역할 토큰',
     swatch: ['#050505', '#cfcfd6'],
     line: 'Graphite의 사다리를 역할 토큰으로 읽는다. 버튼은 채우지 않고 선으로만 선다.',
@@ -38,6 +41,7 @@ const SYSTEMS = [
     schemes: ['dark'],
     preferred: 'dark',
     status: 'outline',
+    mark: 'icon',
     note: '다크 한 벌뿐',
     swatch: ['#121212', '#4d3dff'],
     line: 'Charcoal의 구조에 Injective의 브랜드. 쥐고 있는 것은 모두 Ocean으로 채운다.',
@@ -48,6 +52,7 @@ const SYSTEMS = [
     schemes: ['light', 'dark'],
     preferred: 'light',
     status: 'outline',
+    mark: 'icon',
     note: '모노크롬 · 글자 역할 둘',
     swatch: ['#f4f4f3', '#171719'],
     line: '둥근 모서리의 모노크롬 작업대. 글자 역할이 text와 muted 둘뿐이다.',
@@ -223,6 +228,7 @@ function buildFrame(system, screen) {
   body.dataset.ds = system.id;
   body.dataset.scheme = scheme;
   body.dataset.status = system.status;
+  body.dataset.mark = system.mark;
   body.appendChild(document.getElementById('tpl-' + screen).content.cloneNode(true));
   frame.appendChild(body);
 
