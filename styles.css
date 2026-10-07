@@ -1,0 +1,967 @@
+@import url('./fonts/wanted-sans/wanted-sans.css');
+@import url('./fonts/jetbrains-mono/jetbrains-mono.css');
+@import url('./systems.css');
+
+/* ═══ Page chrome ═══════════════════════════════════════════════════════════
+   The chrome is Slate's, because one of the five has to hold the page and
+   Slate is the one written for a console. It keeps its own tokens under
+   --c-* so a preview frame below can never inherit them by accident. */
+
+:root {
+  --c-bg: #faf9fb;
+  --c-surface: #ffffff;
+  --c-subtle: #f5f3f7;
+  --c-line: #e8e5ee;
+  --c-line-strong: #d5d1dd;
+  --c-ink: #12101a;
+  --c-ink-soft: #565064;
+  --c-ink-faint: #6f687f;
+  --c-accent: #6d5bd0;
+  --c-accent-soft: #f1eefc;
+  --c-pri-bg: #12101a;
+  --c-pri-fg: #faf9fb;
+  --c-shadow: 0 1px 2px rgb(18 16 26 / 0.05), 0 18px 44px rgb(18 16 26 / 0.09);
+  --c-font: 'Wanted Sans Variable', -apple-system, BlinkMacSystemFont, system-ui,
+    'Apple SD Gothic Neo', sans-serif;
+  --c-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+  color-scheme: light;
+}
+
+:root[data-chrome='dark'] {
+  --c-bg: #0b0a0f;
+  --c-surface: #131219;
+  --c-subtle: #1b1a23;
+  --c-line: #26242f;
+  --c-line-strong: #383544;
+  --c-ink: #eeecf2;
+  --c-ink-soft: #a8a2b8;
+  --c-ink-faint: #8983a0;
+  --c-accent: #a898f5;
+  --c-accent-soft: rgb(168 152 245 / 0.13);
+  --c-pri-bg: #eeecf2;
+  --c-pri-fg: #0b0a0f;
+  --c-shadow: 0 0 0 1px rgb(0 0 0 / 0.35), 0 20px 56px rgb(0 0 0 / 0.5);
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--c-bg);
+  color: var(--c-ink);
+  font-family: var(--c-font);
+  font-size: 14px;
+  line-height: 1.55;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+select,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+button:not(:disabled),
+select,
+a[href],
+label[for],
+summary {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+::selection {
+  background: var(--c-accent-soft);
+  color: var(--c-ink);
+}
+
+code {
+  font-family: var(--c-mono);
+  font-size: 0.92em;
+  background: var(--c-subtle);
+  border-radius: 5px;
+  padding: 1px 5px;
+}
+
+a {
+  color: var(--c-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.wrap {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ── Top bar ─────────────────────────────────────────────────────────────── */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: color-mix(in srgb, var(--c-bg) 85%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--c-line);
+}
+
+.bar__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 58px;
+  flex-wrap: wrap;
+  padding: 10px 0;
+}
+
+.bar__row + .bar__row {
+  border-top: 1px solid var(--c-line);
+}
+
+.mark {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-right: auto;
+  min-width: 0;
+}
+
+.mark b {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  font-size: 16px;
+}
+
+.mark span {
+  color: var(--c-ink-faint);
+  font-size: 12px;
+}
+
+/* Pills: the chrome follows Slate, so a free-standing control is fully rounded. */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--c-line-strong);
+  background: var(--c-surface);
+  color: var(--c-ink);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.pill:hover {
+  background: var(--c-subtle);
+}
+
+.seg {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: 40px;
+  padding: 2px;
+  border-radius: 999px;
+  border: 1px solid var(--c-line);
+  background: var(--c-bg);
+}
+
+.seg button {
+  height: 100%;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--c-ink-soft);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.seg button:hover {
+  background: var(--c-subtle);
+  color: var(--c-ink);
+}
+
+.seg button[aria-pressed='true'] {
+  background: var(--c-pri-bg);
+  color: var(--c-pri-fg);
+}
+
+/* System chips carry a swatch of the system they name. */
+.chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 14px 0 8px;
+  border-radius: 999px;
+  border: 1px solid var(--c-line-strong);
+  background: var(--c-surface);
+  color: var(--c-ink-soft);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.chip:hover {
+  background: var(--c-subtle);
+  color: var(--c-ink);
+}
+
+.chip[aria-pressed='true'] {
+  background: var(--c-pri-bg);
+  border-color: var(--c-pri-bg);
+  color: var(--c-pri-fg);
+}
+
+.chip__swatch {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid rgb(128 128 128 / 0.35);
+  flex: none;
+}
+
+.chip__swatch i {
+  display: block;
+}
+
+.hint {
+  color: var(--c-ink-faint);
+  font-size: 12px;
+}
+
+.eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-ink-faint);
+  margin: 0;
+}
+
+:lang(ko) .eyebrow {
+  font-size: 11.5px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* ── Intro ───────────────────────────────────────────────────────────────── */
+.intro {
+  padding: 44px 0 28px;
+  max-width: 62ch;
+}
+
+.intro h1 {
+  margin: 10px 0 10px;
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.intro p {
+  margin: 0;
+  color: var(--c-ink-soft);
+  font-size: 14px;
+}
+
+/* ── Section heads ───────────────────────────────────────────────────────── */
+.section {
+  padding-bottom: 48px;
+}
+
+.section__head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 0 16px;
+  border-top: 1px solid var(--c-line);
+  margin-top: 8px;
+}
+
+.section__head h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.section__head p {
+  margin: 0;
+  color: var(--c-ink-faint);
+  font-size: 13px;
+}
+
+/* ── The comparison grid ─────────────────────────────────────────────────── */
+/* Columns follow the room there is, not a breakpoint someone picked. A frame
+   narrower than 380px stops being a screen and starts being a strip, so that
+   is the floor; below it the comparison stacks. */
+.grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr));
+  align-items: start;
+}
+
+.frame {
+  border: 1px solid var(--c-line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--c-surface);
+  min-width: 0;
+}
+
+.frame__bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--c-line);
+  background: var(--c-subtle);
+}
+
+.frame__name {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.frame__note {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--c-ink-faint);
+  font-family: var(--c-mono);
+}
+
+/* ═══ The sample screens ════════════════════════════════════════════════════
+   Everything below is written against the --ds contract in systems.css and
+   never against a chrome token. That is the whole experiment: identical
+   markup, identical rules, five fillings. */
+
+.ds {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--body-size);
+  line-height: var(--body-leading);
+  padding: 18px;
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 48px 48px;
+  container-type: inline-size;
+}
+
+.ds :focus-visible {
+  outline: var(--focus-ring) solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* NightBrowser draws no ring at all — the control's own 1px border becomes
+   `text`, which is what --focus-ring: 0px leaves room for. */
+.ds[data-ds='agent-browser'] :focus-visible {
+  border-color: var(--focus);
+}
+
+.ds h3,
+.ds h4 {
+  margin: 0;
+  font-weight: var(--head-weight);
+  letter-spacing: var(--head-track);
+}
+
+.ds-eyebrow {
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+  letter-spacing: var(--label-track);
+  text-transform: var(--label-case);
+  color: var(--ink-faint);
+}
+
+.ds :lang(ko).ds-eyebrow,
+.ds:lang(ko) .ds-eyebrow {
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.ds-mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Page head */
+.ds-head {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.ds-head h3 {
+  font-size: 21px;
+  margin: 4px 0 4px;
+}
+
+.ds-head p {
+  margin: 0;
+  color: var(--ink-soft);
+  max-width: 44ch;
+}
+
+.ds-head__actions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+/* Stat strip — hairline dividers on a line ground, so the facts read as one row */
+.ds-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+@container (max-width: 560px) {
+  .ds-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ds-head__actions {
+    margin-left: 0;
+  }
+  .ds-table th,
+  .ds-table td {
+    padding-left: 11px;
+    padding-right: 11px;
+  }
+}
+
+.ds-stat {
+  background: var(--surface);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.ds-stat__value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(18px, 5.5cqi, 26px);
+  font-weight: var(--head-weight);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.ds-stat__sub {
+  font-size: 11px;
+  color: var(--ink-faint);
+}
+
+.ds-stat__sub[data-up] {
+  color: var(--trend);
+}
+
+/* Panel */
+.ds-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-card);
+  overflow: hidden;
+}
+
+.ds-panel + .ds-panel {
+  margin-top: 16px;
+}
+
+.ds-panel__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.ds-panel__head h4 {
+  font-size: 14px;
+}
+
+.ds-panel__head .ds-eyebrow {
+  width: 100%;
+}
+
+.ds-panel__head .ds-spacer {
+  margin-left: auto;
+}
+
+.ds-panel__body {
+  padding: 16px;
+}
+
+/* Table — the only thing allowed to be wider than its column, and then only
+   inside its own scroller. NightBrowser's 14px body is what finds this edge. */
+.ds-scroll {
+  overflow-x: auto;
+}
+
+.ds-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--body-size);
+}
+
+.ds-table th {
+  text-align: left;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+  letter-spacing: var(--label-track);
+  text-transform: var(--label-case);
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.ds-table td {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-soft);
+  vertical-align: middle;
+}
+
+.ds-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.ds-table tbody tr {
+  transition: background-color 120ms ease;
+}
+
+.ds-table tbody tr:hover {
+  background: var(--subtle);
+}
+
+.ds-table .num {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.ds-method {
+  display: inline-block;
+  min-width: 46px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+}
+
+.ds-path {
+  font-family: var(--font-mono);
+  color: var(--ink);
+}
+
+/* Buttons */
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: var(--h-md);
+  padding: 0 16px;
+  border-radius: var(--r-ctl);
+  border: 1px solid var(--gho-line);
+  background: var(--gho-bg);
+  color: var(--gho-fg);
+  font-family: inherit;
+  font-size: var(--body-size);
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 180ms ease, border-color 180ms ease, opacity 180ms ease;
+}
+
+.ds-btn:hover {
+  background: var(--subtle);
+}
+
+.ds-btn[data-v='primary'] {
+  background: var(--pri-bg);
+  border-color: var(--pri-line);
+  color: var(--pri-fg);
+}
+
+.ds-btn[data-v='primary']:hover {
+  background: var(--pri-bg);
+  opacity: 0.9;
+}
+
+.ds-btn[data-v='quiet'] {
+  background: transparent;
+  border-color: transparent;
+  color: var(--ink-soft);
+}
+
+.ds-btn[data-v='quiet']:hover {
+  background: var(--subtle);
+  color: var(--ink);
+}
+
+.ds-btn[data-v='danger'] {
+  background: transparent;
+  /* The border is the status colour held back, as Slate draws it (danger/40),
+     so a destructive action reads as outlined rather than as a filled alarm. */
+  border-color: color-mix(in srgb, var(--danger-text) 45%, transparent);
+  color: var(--danger-text);
+}
+
+.ds-btn[data-v='danger']:hover {
+  border-color: var(--danger-text);
+  background: var(--danger-soft);
+}
+
+.ds-btn[data-size='sm'] {
+  height: var(--h-sm);
+  padding: 0 12px;
+  font-size: 12px;
+}
+
+.ds-btn[data-size='lg'] {
+  height: var(--h-lg);
+  padding: 0 20px;
+}
+
+.ds-btn:disabled {
+  opacity: 0.4;
+}
+
+/* Badges and status.
+   Two treatments, because the systems genuinely disagree: Slate tints a pill
+   with the status colour, while Charcoal, Injective and NightBrowser give it a
+   border for its kind and let the word carry the rest. */
+.ds-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  padding: 0 9px;
+  border-radius: var(--r-tag);
+  border: 1px solid transparent;
+  background: var(--subtle);
+  color: var(--ink-soft);
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.ds-badge[data-tone='ok'] {
+  background: var(--ok-soft);
+  border-color: var(--ok);
+  color: var(--ok);
+}
+
+.ds-badge[data-tone='warn'] {
+  background: var(--warn-soft);
+  border-color: var(--warn);
+  color: var(--warn);
+}
+
+.ds-badge[data-tone='danger'] {
+  background: var(--danger-soft);
+  border-color: var(--danger);
+  color: var(--danger-text);
+}
+
+/* Where status is an outline, the colour stays on the border and the text
+   keeps the readable ink — Charcoal's toast rule, and the only way the
+   monochrome systems can show a kind at all. */
+.ds[data-status='outline'] .ds-badge[data-tone] {
+  color: var(--ink);
+  background: transparent;
+}
+
+/* The mark is a shape before it is a colour: a disc settled, a diamond
+   waiting, a ring refused. Graphite and NightBrowser have no hue to spend, so
+   the shape is the whole signal there; everywhere else it is one more. */
+.ds-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: currentColor;
+  flex: none;
+}
+
+.ds-badge[data-tone='warn'] .ds-dot {
+  border-radius: 1px;
+  rotate: 45deg;
+  width: 6px;
+  height: 6px;
+}
+
+.ds-badge[data-tone='danger'] .ds-dot {
+  background: transparent;
+  border: 1.5px solid currentColor;
+  width: 8px;
+  height: 8px;
+}
+
+.ds[data-status='outline'] .ds-badge[data-tone] .ds-dot {
+  color: var(--ink);
+}
+
+.ds[data-status='outline'] .ds-badge[data-tone='warn'] .ds-dot {
+  color: var(--ink-faint);
+}
+
+/* Fields */
+.ds-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  flex: 1 1 180px;
+}
+
+.ds-field > span {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.ds-input,
+.ds-select {
+  height: var(--field-h, var(--h-md));
+  width: 100%;
+  padding: 0 12px;
+  border-radius: var(--r-field);
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: var(--body-size);
+}
+
+.ds-input::placeholder {
+  color: var(--ink-faint);
+}
+
+.ds-input:focus,
+.ds-select:focus {
+  outline: none;
+  border-color: var(--focus);
+  box-shadow: 0 0 0 var(--focus-ring) color-mix(in srgb, var(--focus) 25%, transparent);
+}
+
+/* Segmented — a held control inverts, in every one of the five */
+.ds-seg {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  height: var(--field-h, var(--h-md));
+  padding: 2px;
+  border-radius: var(--r-ctl);
+  border: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.ds-seg button {
+  height: 100%;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--r-ctl);
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.ds-seg button[aria-pressed='true'] {
+  background: var(--held-bg);
+  color: var(--held-fg);
+}
+
+/* Notice — the one place Charcoal spends a warm colour */
+.ds-notice {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--r-card);
+  border: 1px solid var(--accent-line, var(--accent));
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: var(--body-size);
+}
+
+.ds-notice b {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* Empty state, on the one texture each system allows */
+.ds-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  padding: 30px 20px;
+  border-radius: var(--r-card);
+  border: 1px solid var(--line);
+  background-image: radial-gradient(var(--dots) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.ds-empty p {
+  margin: 0;
+  color: var(--ink-soft);
+  max-width: 34ch;
+}
+
+.ds-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.ds-row + .ds-row {
+  margin-top: 14px;
+}
+
+.ds-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Foundations: the palette and the specimen, read straight off the tokens */
+.ds-swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+  gap: 8px;
+}
+
+.ds-sw {
+  border: 1px solid var(--line);
+  border-radius: var(--r-ctl);
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.ds-sw i {
+  display: block;
+  height: 38px;
+}
+
+.ds-sw span {
+  display: block;
+  padding: 5px 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ds-specimen {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ds-specimen b {
+  font-size: 26px;
+  font-weight: var(--head-weight);
+  letter-spacing: var(--head-track);
+}
+
+.ds-specimen code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.ds-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 14px;
+  font-size: 12px;
+  margin: 0;
+}
+
+.ds-facts dt {
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.ds-facts dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  color: var(--ink);
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+.foot {
+  border-top: 1px solid var(--c-line);
+  padding: 24px 0 56px;
+  color: var(--c-ink-faint);
+  font-size: 12px;
+}
+
+.foot p {
+  margin: 0 0 6px;
+  max-width: 76ch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

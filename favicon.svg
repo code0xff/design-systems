@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 글자를 획으로 그린다 — 서체가 없어도 모양이 선다. slate/design.md의 파비콘 규칙. -->
+  <style>
+    :root { --ground: #12101a; --mark: #faf9fb; }
+    @media (prefers-color-scheme: dark) { :root { --ground: #eeecf2; --mark: #0b0a0f; } }
+  </style>
+  <rect width="32" height="32" rx="8" fill="var(--ground)"/>
+  <path d="M11 9h6.5a4 4 0 0 1 0 8H11m0-8v14" fill="none" stroke="var(--mark)"
+        stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

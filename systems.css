@@ -1,0 +1,457 @@
+/* One variable contract, five fillings.
+   Every sample screen is written against the names below and nothing else, so a screen changes
+   look by changing `data-ds` on its frame and never by changing its markup. The values come from
+   each system's own design.md; where a system has no equivalent for a name, the gap is the point
+   and is filled with what that system would actually use (Graphite has no accent colour, so its
+   accent is a luminance step; NightBrowser has two text roles, so faint and soft are the same). */
+
+.ds {
+  /* Shape */
+  --r-ctl: 8px;
+  --r-field: 8px;
+  --r-card: 12px;
+  --r-tag: 4px;
+  /* Control heights */
+  --h-sm: 32px;
+  --h-md: 36px;
+  --h-lg: 40px;
+  /* Small-label voice */
+  --label-case: uppercase;
+  --label-track: 0.12em;
+  --label-size: 11px;
+  --label-weight: 500;
+  /* Headings */
+  --head-weight: 600;
+  --head-track: 0;
+  /* Body */
+  --body-size: 13px;
+  --body-leading: 1.55;
+  --shadow: none;
+  --grid: transparent;
+  --dots: transparent;
+  --status-style: tint;
+  /* A trend's colour, and the readable half of a status colour. Charcoal and
+     Injective specify their status hues as TOAST BORDERS only (35% L at .7
+     alpha), which is correct on a border and unreadable as text — so the
+     -text pair below is the same hue lifted to a readable lightness, and is
+     the one place on this page a value is derived rather than quoted. */
+  --trend: var(--ink);
+  /* Focus. Slate rings in the accent, Charcoal in line-hover, Injective in
+     Ocean, and NightBrowser changes the border itself and draws no ring. */
+  --focus: var(--line-strong);
+  --focus-ring: 2px;
+  --ok-text: var(--ok);
+  --danger-text: var(--danger);
+  --font-ui: system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
+}
+
+/* ── Slate ──────────────────────────────────────────────────────────────────
+   slate/design.md. Colour only for status and one violet accent; the primary
+   action inverts; every free-standing control is a pill. */
+.ds[data-ds='slate'] {
+  --bg: #faf9fb;
+  --surface: #ffffff;
+  --subtle: #f5f3f7;
+  --raised: #ffffff;
+  --line: #e8e5ee;
+  --line-strong: #d5d1dd;
+  --ink: #12101a;
+  --ink-soft: #565064;
+  --ink-faint: #6f687f;
+  --pri-bg: #12101a;
+  --pri-fg: #faf9fb;
+  --pri-line: #12101a;
+  --gho-bg: #ffffff;
+  --gho-fg: #12101a;
+  --gho-line: #d5d1dd;
+  --held-bg: #12101a;
+  --held-fg: #faf9fb;
+  --held-line: #12101a;
+  --accent: #6d5bd0;
+  --accent-soft: #f1eefc;
+  --on-accent: #ffffff;
+  --ok: #1a7a43;
+  --ok-soft: #e9f7ef;
+  --warn: #8a5e00;
+  --warn-soft: #fdf3dc;
+  --danger: #c2403f;
+  --danger-soft: #fdeeee;
+  --trend: #1a7a43;
+  --dots: rgb(18 16 26 / 0.06);
+  --shadow: 0 1px 2px rgb(18 16 26 / 0.05), 0 18px 44px rgb(18 16 26 / 0.09);
+
+  --r-ctl: 999px;
+  --r-field: 20px;
+  --r-card: 16px;
+  --r-tag: 999px;
+  --h-sm: 28px;
+  --h-md: 36px;
+  --h-lg: 44px;
+  --field-h: 40px;
+  --focus: #6d5bd0;
+  --label-track: 0.14em;
+  --head-weight: 500;
+  --head-track: -0.01em;
+  --font-ui: 'Wanted Sans Variable', 'Pretendard Variable', Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.ds[data-ds='slate'][data-scheme='dark'] {
+  --bg: #0b0a0f;
+  --surface: #131219;
+  --subtle: #1b1a23;
+  --raised: #191822;
+  --line: #26242f;
+  --line-strong: #383544;
+  --ink: #eeecf2;
+  --ink-soft: #a8a2b8;
+  --ink-faint: #8983a0;
+  --pri-bg: #eeecf2;
+  --pri-fg: #0b0a0f;
+  --pri-line: #eeecf2;
+  --gho-bg: #131219;
+  --gho-fg: #eeecf2;
+  --gho-line: #383544;
+  --held-bg: #eeecf2;
+  --held-fg: #0b0a0f;
+  --held-line: #eeecf2;
+  --accent: #a898f5;
+  --accent-soft: rgb(168 152 245 / 0.13);
+  --on-accent: #0d0a1a;
+  --focus: #a898f5;
+  --ok: #5fd08a;
+  --ok-soft: rgb(95 208 138 / 0.12);
+  --warn: #e3b25a;
+  --warn-soft: rgb(227 178 90 / 0.12);
+  --danger: #f07a7a;
+  --danger-soft: rgb(240 122 122 / 0.12);
+  --trend: #5fd08a;
+  --dots: rgb(238 236 242 / 0.05);
+  --shadow: 0 0 0 1px rgb(0 0 0 / 0.35), 0 20px 56px rgb(0 0 0 / 0.5);
+}
+
+/* ── Graphite ───────────────────────────────────────────────────────────────
+   graphite/design.md. No colour accents at all: success and failure are shown
+   with luminance and words. JetBrains Mono carries the whole interface, so the
+   body runs smaller with more leading. A faint 48px grid sits behind the page. */
+.ds[data-ds='graphite'] {
+  --bg: #050505;
+  --surface: #0a0a0b;
+  --subtle: #141416;
+  --raised: #0a0a0b;
+  --line: #141416;
+  --line-strong: #2c2c31;
+  --ink: #ececf1;
+  --ink-soft: #7d7d86;
+  /* ink-400 again, not ink-500: the doc puts the floor for anything meant to
+     be read at ink-400 (4.9:1) and keeps ink-500 for text a reader may skip.
+     Labels and table headers are meant to be read, so Graphite has two
+     readable text steps, not three. */
+  --ink-faint: #7d7d86;
+  --pri-bg: #fafafa;
+  --pri-fg: #050505;
+  --pri-line: #fafafa;
+  --gho-bg: transparent;
+  --gho-fg: #ececf1;
+  --gho-line: #1f1f23;
+  --held-bg: #fafafa;
+  --held-fg: #050505;
+  --held-line: #fafafa;
+  /* No accent colour exists. The brightest step stands in for one. */
+  --accent: #fafafa;
+  --accent-soft: rgba(255, 255, 255, 0.08);
+  --on-accent: #050505;
+  --focus: #cfcfd6;
+  /* Status is shape, luminance and a word, never hue. */
+  --ok: #fafafa;
+  --ok-soft: rgba(255, 255, 255, 0.08);
+  --warn: #cfcfd6;
+  --warn-soft: rgba(255, 255, 255, 0.08);
+  --danger: #fafafa;
+  --danger-soft: rgba(255, 255, 255, 0.08);
+  --grid: rgba(255, 255, 255, 0.04);
+  --dots: rgba(255, 255, 255, 0.04);
+
+  --r-ctl: 8px;
+  --r-field: 8px;
+  --r-card: 12px;
+  --r-tag: 8px;
+  --field-h: 36px;
+  --body-size: 12px;
+  --body-leading: 1.7;
+  --label-track: 0.14em;
+  --head-weight: 500;
+  --font-ui: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, 'Noto Sans KR',
+    system-ui, monospace;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.ds[data-ds='graphite'][data-scheme='light'] {
+  --bg: #f7f7f8;
+  --surface: #ffffff;
+  --subtle: #e6e6ea;
+  --raised: #ffffff;
+  --line: #e6e6ea;
+  --line-strong: #b8b8c0;
+  --ink: #18181c;
+  --ink-soft: #5f5f68;
+  --ink-faint: #5f5f68;
+  --pri-bg: #050505;
+  --pri-fg: #f7f7f8;
+  --pri-line: #050505;
+  --gho-fg: #18181c;
+  --gho-line: #d4d4da;
+  --held-bg: #050505;
+  --held-fg: #f7f7f8;
+  --held-line: #050505;
+  --accent: #050505;
+  --accent-soft: rgba(0, 0, 0, 0.06);
+  --on-accent: #f7f7f8;
+  --ok: #050505;
+  --ok-soft: rgba(0, 0, 0, 0.06);
+  --warn: #2c2c33;
+  --warn-soft: rgba(0, 0, 0, 0.06);
+  --danger: #050505;
+  --danger-soft: rgba(0, 0, 0, 0.06);
+  --grid: rgba(0, 0, 0, 0.05);
+  --dots: rgba(0, 0, 0, 0.05);
+}
+
+/* ── Charcoal ───────────────────────────────────────────────────────────────
+   charcoal/design.md. Graphite's ladder read through role tokens, with the
+   lines two steps brighter because every panel is opaque. Buttons are
+   outline-only; the emphasis control is an outline too, and only a held
+   control inverts. Status wears a border for its kind rather than a tint. */
+.ds[data-ds='charcoal'] {
+  --bg: #050505;
+  --surface: #0a0a0b;
+  --subtle: #141416;
+  --raised: #141416;
+  --line: #2c2c31;
+  --line-strong: #7d7d86;
+  --ink: #cfcfd6;
+  --ink-soft: #9d9da6;
+  --ink-faint: #7d7d86;
+  /* Emphasis is an outline, not a fill. */
+  --pri-bg: transparent;
+  --pri-fg: #fafafa;
+  --pri-line: #cfcfd6;
+  --gho-bg: transparent;
+  --gho-fg: #cfcfd6;
+  --gho-line: #7d7d86;
+  --held-bg: #fafafa;
+  --held-fg: #050505;
+  --held-line: #fafafa;
+  /* The one warm accent, for a sentence the reader must not miss. */
+  --accent: oklch(85% 0.14 85);
+  --accent-soft: oklch(25% 0.06 70 / 0.35);
+  --accent-line: oklch(40% 0.1 70 / 0.6);
+  --on-accent: #050505;
+  --ok: oklch(35% 0.12 160 / 0.7);
+  --ok-soft: transparent;
+  --ok-text: oklch(78% 0.13 160);
+  --warn: oklch(40% 0.1 70 / 0.6);
+  --warn-soft: transparent;
+  --danger: oklch(35% 0.14 25 / 0.7);
+  --danger-soft: transparent;
+  --danger-text: oklch(72% 0.15 25);
+  --grid: rgba(255, 255, 255, 0.04);
+  --dots: rgba(255, 255, 255, 0.04);
+  --status-style: outline;
+  --focus: #9d9da6;
+
+  --r-ctl: 8px;
+  --r-field: 8px;
+  --r-card: 12px;
+  --r-tag: 8px;
+  --h-sm: 32px;
+  --h-md: 36px;
+  --h-lg: 40px;
+  --field-h: 36px;
+  --body-size: 12px;
+  --body-leading: 1.7;
+  --label-track: 0.14em;
+  --head-weight: 500;
+  --font-ui: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, 'Noto Sans KR',
+    system-ui, monospace;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.ds[data-ds='charcoal'][data-scheme='light'] {
+  --bg: #f7f7f8;
+  --surface: #ffffff;
+  --subtle: #e6e6ea;
+  --raised: #e6e6ea;
+  --line: #b8b8c0;
+  --line-strong: #5f5f68;
+  --ink: #2c2c33;
+  --ink-soft: #45454d;
+  --ink-faint: #5f5f68;
+  --pri-fg: #050505;
+  --pri-line: #2c2c33;
+  --gho-fg: #2c2c33;
+  --gho-line: #5f5f68;
+  --held-bg: #050505;
+  --held-fg: #f7f7f8;
+  --held-line: #050505;
+  --accent: oklch(45% 0.13 60);
+  --accent-soft: oklch(96% 0.04 85);
+  --accent-line: oklch(80% 0.12 80);
+  --on-accent: #f7f7f8;
+  --ok: oklch(65% 0.14 160);
+  --ok-text: oklch(45% 0.13 160);
+  --warn: oklch(80% 0.12 80);
+  --danger: oklch(65% 0.16 25);
+  --danger-text: oklch(48% 0.17 25);
+  --grid: rgba(0, 0, 0, 0.05);
+  --dots: rgba(0, 0, 0, 0.05);
+}
+
+/* ── Injective ──────────────────────────────────────────────────────────────
+   injective/design.md. Charcoal's structure in the chain's brand: Space Gray
+   ground, Snow text, and a saturated Ocean that fills anything held, asked for
+   or vouched for. One scheme — there is no light half. No grid. */
+.ds[data-ds='injective'] {
+  --bg: #121212;
+  --surface: #17171c;
+  --subtle: #1e1e26;
+  --raised: #1e1e26;
+  --line: #343442;
+  --line-strong: #8b8b9c;
+  --ink: #d2d2e0;
+  --ink-soft: #a9a9ba;
+  --ink-faint: #8b8b9c;
+  /* The emphasis and toggle tokens move to Ocean; no component changes. */
+  --pri-bg: #4d3dff;
+  --pri-fg: #eeefff;
+  --pri-line: #4d3dff;
+  --gho-bg: transparent;
+  --gho-fg: #d2d2e0;
+  --gho-line: #8b8b9c;
+  --held-bg: #4d3dff;
+  --held-fg: #eeefff;
+  --held-line: #4d3dff;
+  /* Ocean is 3.06:1 on Space Gray — a border and a fill, never small text.
+     accent-text (5.85:1) is the one that may be read. */
+  --accent: #8a7fff;
+  --accent-soft: transparent;
+  --accent-line: #4d3dff;
+  --on-accent: #eeefff;
+  --ok: oklch(35% 0.12 160 / 0.7);
+  --ok-soft: transparent;
+  --ok-text: oklch(78% 0.13 160);
+  --warn: oklch(40% 0.1 70 / 0.6);
+  --warn-soft: transparent;
+  --danger: oklch(35% 0.14 25 / 0.7);
+  --danger-soft: transparent;
+  --danger-text: oklch(72% 0.15 25);
+  --grid: transparent;
+  --focus: #4d3dff;
+  --dots: rgba(238, 239, 255, 0.05);
+  --status-style: outline;
+
+  --r-ctl: 8px;
+  --r-field: 8px;
+  --r-card: 12px;
+  --r-tag: 8px;
+  --h-sm: 32px;
+  --h-md: 36px;
+  --h-lg: 40px;
+  --field-h: 36px;
+  --body-size: 13px;
+  --body-leading: 1.6;
+  --label-track: 0.12em;
+  --head-weight: 500;
+  --font-ui: 'Pretendard Latin', 'Pretendard Variable', Pretendard, 'Apple SD Gothic Neo',
+    'Malgun Gothic', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ── NightBrowser ───────────────────────────────────────────────────────────
+   agent-browser/design.md. A rounded monochrome workbench. Two text roles only
+   (text and muted), a primary action that is a solid inverse block, secondary
+   actions outlined with a soft hover, and status carried by shape and words. */
+.ds[data-ds='agent-browser'] {
+  --bg: #f4f4f3;
+  --surface: #ffffff;
+  --subtle: #eeeeef;
+  --raised: #ffffff;
+  --line: #dedee1;
+  --line-strong: #66666c;
+  --ink: #171719;
+  --ink-soft: #66666c;
+  /* There is no third text role; faint and soft are the same muted. */
+  --ink-faint: #66666c;
+  --pri-bg: #171719;
+  --pri-fg: #ffffff;
+  --pri-line: #171719;
+  --gho-bg: transparent;
+  --gho-fg: #171719;
+  --gho-line: #dedee1;
+  --held-bg: #171719;
+  --held-fg: #ffffff;
+  --held-line: #171719;
+  --accent: #171719;
+  --accent-soft: #eeeeef;
+  --on-accent: #ffffff;
+  --ok: #171719;
+  --ok-soft: #eeeeef;
+  --warn: #66666c;
+  --warn-soft: #eeeeef;
+  --danger: #171719;
+  --danger-soft: #eeeeef;
+  --dots: rgba(23, 23, 25, 0.06);
+  --status-style: outline;
+  /* The border itself becomes `text` on focus; there is no second outline. */
+  --focus: #171719;
+  --focus-ring: 0px;
+
+  --r-ctl: 8px;
+  --r-field: 8px;
+  --r-card: 12px;
+  --r-tag: 8px;
+  --h-sm: 28px;
+  --h-md: 36px;
+  --h-lg: 36px;
+  --field-h: 36px;
+  --body-size: 14px;
+  --body-leading: 1.5;
+  --label-track: 0.08em;
+  --head-weight: 500;
+  --font-ui: 'Pretendard Variable', Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui,
+    sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.ds[data-ds='agent-browser'][data-scheme='dark'] {
+  --bg: #111112;
+  --surface: #19191b;
+  --subtle: #232326;
+  --raised: #19191b;
+  --line: #343438;
+  --line-strong: #a3a3aa;
+  --ink: #f2f2f3;
+  --ink-soft: #a3a3aa;
+  --ink-faint: #a3a3aa;
+  --pri-bg: #f2f2f3;
+  --pri-fg: #111112;
+  --pri-line: #f2f2f3;
+  --gho-fg: #f2f2f3;
+  --gho-line: #343438;
+  --held-bg: #f2f2f3;
+  --held-fg: #111112;
+  --held-line: #f2f2f3;
+  --accent: #f2f2f3;
+  --accent-soft: #232326;
+  --on-accent: #111112;
+  --ok: #f2f2f3;
+  --ok-soft: #232326;
+  --warn: #a3a3aa;
+  --warn-soft: #232326;
+  --danger: #f2f2f3;
+  --danger-soft: #232326;
+  --dots: rgba(242, 242, 243, 0.06);
+  --focus: #f2f2f3;
+}
