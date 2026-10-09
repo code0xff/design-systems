@@ -1,5 +1,6 @@
 @import url('./fonts/wanted-sans/wanted-sans.css');
 @import url('./fonts/jetbrains-mono/jetbrains-mono.css');
+@import url('./fonts/pretendard/pretendard.css');
 @import url('./systems.css');
 
 /* ═══ Page chrome ═══════════════════════════════════════════════════════════
@@ -386,6 +387,16 @@ a {
     linear-gradient(90deg, var(--grid) 1px, transparent 1px);
   background-size: 48px 48px;
   container-type: inline-size;
+}
+
+/* Pretendard sets `0x1F` as `0×1F` and `<=>` as an arrow through calt/clig.
+   A product showing 0x addresses cannot have a face quietly editing them, so
+   Injective's document drops both features — and bundling the real face here
+   reproduced the exact bug on the first address drawn, in both columns that
+   use it. */
+.ds[data-ds='injective'],
+.ds[data-ds='agent-browser'] {
+  font-feature-settings: 'calt' 0, 'clig' 0;
 }
 
 .ds :focus-visible {
@@ -812,6 +823,30 @@ a {
   outline: none;
   border-color: var(--focus);
   box-shadow: 0 0 0 var(--focus-ring) color-mix(in srgb, var(--focus) 25%, transparent);
+}
+
+/* A field filled in wrongly. The error colour reaches the border and the
+   message and stops there — it is the one hue NightBrowser spends, and the
+   only place Graphite would spend one if it spent any (it does not, so its
+   message is the brightest ink and the border is line-strong). The message
+   mounts when it has something to say; none of the five reserves a blank line
+   under every field for one that may never come. */
+.ds-input[data-invalid] {
+  border-color: var(--error);
+}
+
+.ds-error {
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--error);
+}
+
+.ds[data-ds='graphite'] .ds-input[data-invalid] {
+  border-color: var(--line-strong);
+}
+
+.ds[data-ds='graphite'] .ds-error {
+  color: var(--ink);
 }
 
 /* Segmented — a held control inverts, in every one of the five */

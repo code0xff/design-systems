@@ -41,6 +41,10 @@
      -text pair below is the same hue lifted to a readable lightness, and is
      the one place on this page a value is derived rather than quoted. */
   --trend: var(--ink);
+  /* A field filled in wrongly. Four of the five reuse their danger colour for
+     it; NightBrowser is monochrome everywhere else and keeps a red for only
+     this, so it declares its own. */
+  --error: var(--danger-text, var(--danger));
   /* Focus. Slate rings in the accent, Charcoal in line-hover, Injective in
      Ocean, and NightBrowser changes the border itself and draws no ring. */
   --focus: var(--line-strong);
@@ -417,6 +421,10 @@
   --r-ctl: 8px;
   --r-field: 8px;
   --r-card: 12px;
+  /* The one colour this system has, and only for a field filled in wrongly:
+     it never reaches a request state, a toast or a badge. */
+  --error: #b91c1c;
+
   --r-tag: 8px;
   --h-sm: 28px;
   --h-md: 36px;
@@ -425,7 +433,8 @@
   --body-size: 14px;
   --body-leading: 1.5;
   --label-track: 0.08em;
-  --head-weight: 500;
+  /* --aw-heading-weight. Body runs 400/500; a heading is 600. */
+  --head-weight: 600;
   --font-ui: 'Pretendard Variable', Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui,
     sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -458,6 +467,7 @@
   --warn-soft: #232326;
   --danger: #f2f2f3;
   --danger-soft: #232326;
+  --error: #fca5a5;
   --dots: rgba(242, 242, 243, 0.06);
   --focus: #f2f2f3;
 }

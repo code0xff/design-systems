@@ -89,10 +89,11 @@
     <footer class="foot wrap">
       <p id="foot-note"></p>
       <p>
-        본문 서체는 Wanted Sans, 기계값은 JetBrains Mono이며 둘 다 이 사이트 안에 함께 올려 CDN을
-        기다리지 않는다. Injective와 NightBrowser가 쓰는 Pretendard는 여기 함께 올리지 않았으므로
-        그 두 칸의 본문은 플랫폼 기본 서체로 떨어진다 — 글자 모양은 실제 제품과 다르다.
-      </p>
+        본문 서체는 Wanted Sans, Injective와 NightBrowser의 본문은 Pretendard, 기계값은 JetBrains
+        Mono이며 셋 다 이 사이트 안에 함께 올려 CDN을 기다리지 않는다. Injective는 실제로는
+        Pretendard를 라틴만 잘라 쓰고 한글은 플랫폼 서체로 넘기는데, 그 서브셋은 여기 올리지
+        않았으므로 이 칸의 한글은 번들된 서브셋으로 그려진다.
+</p>
     </footer>
 
     <!-- ── 개요 화면 ───────────────────────────────────────────────────────── -->
@@ -240,6 +241,14 @@
                   <option>Base Sepolia</option>
                 </select>
               </label>
+            </div>
+            <div class="ds-row">
+              <label class="ds-field">
+                <span>지갑 주소</span>
+                <input class="ds-input" data-invalid type="text" value="0x7a3f" aria-invalid="true" aria-describedby="err" />
+                <span class="ds-error" id="err">주소가 40자가 아닙니다.</span>
+              </label>
+              <div class="ds-field"></div>
             </div>
             <div class="ds-row">
               <div class="ds-seg" role="group" aria-label="보기">

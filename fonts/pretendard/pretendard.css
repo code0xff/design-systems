@@ -1,0 +1,26 @@
+/* Pretendard, SIL OFL 1.1 — see OFL.txt beside this file. Latin + Korean subsets at the three
+   weights these systems use: 400 body, 500 emphasis, 600 headings. Injective cuts Pretendard to
+   Latin only and lets Korean fall to the platform face; that cut is made with pyftsubset over the
+   variable original and is not reproduced here, so the Injective column shows Korean in this
+   subset rather than in the platform face. */
+@font-face {
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('./Pretendard-Regular.subset.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('./Pretendard-Medium.subset.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('./Pretendard-SemiBold.subset.woff2') format('woff2');
+}
