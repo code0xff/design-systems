@@ -57,6 +57,17 @@ const SYSTEMS = [
     swatch: ['#f4f4f3', '#171719'],
     line: '둥근 모서리의 모노크롬 작업대. 글자 역할이 text와 muted 둘뿐이다.',
   },
+  {
+    id: 'lumen',
+    name: 'Lumen',
+    schemes: ['light', 'dark'],
+    preferred: 'light',
+    status: 'outline',
+    mark: 'icon',
+    note: '두 값뿐 · Manrope',
+    swatch: ['#ffffff', '#000000'],
+    line: '순백과 순흑 두 값뿐. 위계는 크기와 자간이 만들고, 강조는 반전 하나로만 한다.',
+  },
 ];
 
 const SWATCH_KEYS = [

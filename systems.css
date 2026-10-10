@@ -49,6 +49,10 @@
      Ocean, and NightBrowser changes the border itself and draws no ring. */
   --focus: var(--line-strong);
   --focus-ring: 2px;
+  /* How far clear of the control the ring is drawn. Five of the six leave it
+     at two; Lumen sets seven, because on a page with no fills a ring drawn
+     tight to a control reads as part of the control. */
+  --focus-offset: 2px;
   --ok-text: var(--ok);
   --danger-text: var(--danger);
   --font-ui: system-ui, sans-serif;
@@ -470,4 +474,128 @@
   --error: #fca5a5;
   --dots: rgba(242, 242, 243, 0.06);
   --focus: #f2f2f3;
+}
+
+/* ── Lumen ──────────────────────────────────────────────────────────────────
+   lumen/design.md. Two values and no third: ink and paper, with every text
+   role, every rule and every border taking the polarity of the section it sits
+   in. There is no accent, no status hue, and — unlike Graphite — no luminance
+   ladder to stand in for one, because the ladder has two rungs. So this is the
+   page's hardest column: everything Lumen tells apart, it tells apart with
+   size, tracking, geometry and inversion. The overrides that needs are at the
+   end of styles.css, each one named. */
+.ds[data-ds='lumen'] {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  /* No third value exists, so the hover ground, the badge ground and the
+     raised panel are all simply the paper. A row under the pointer therefore
+     does not move, which is exactly what the source's `:hover { color:
+     inherit }` no-ops say out loud. */
+  --subtle: #ffffff;
+  --raised: #ffffff;
+  /* One rule weight, drawn in the ink itself (`1px solid currentColor`). line
+     and line-strong cannot differ when there is nothing between them. */
+  --line: #000000;
+  --line-strong: #000000;
+  /* Three text roles collapse to one. Quietness is size and tracking here,
+     never colour — see the size overrides in styles.css. */
+  --ink: #000000;
+  --ink-soft: #000000;
+  --ink-faint: #000000;
+  --pri-bg: #000000;
+  --pri-fg: #ffffff;
+  --pri-line: #000000;
+  --gho-bg: transparent;
+  --gho-fg: #000000;
+  --gho-line: #000000;
+  --held-bg: #000000;
+  --held-fg: #ffffff;
+  --held-line: #000000;
+  /* There is no accent colour. The notice is a ruled box in plain ink, which
+     is how the source sets its one pull quote. */
+  --accent: #000000;
+  --accent-soft: transparent;
+  --accent-line: #000000;
+  --on-accent: #ffffff;
+  /* There is no status hue, and no step to borrow. Glyph and word carry the
+     kind; the kind that demands an answer inverts. */
+  --ok: #000000;
+  --ok-soft: transparent;
+  --warn: #000000;
+  --warn-soft: transparent;
+  --danger: #000000;
+  --danger-soft: transparent;
+  --error: #000000;
+  --trend: #000000;
+  --grid: transparent;
+  --dots: transparent;
+  --shadow: none;
+
+  /* Square, everywhere. A circle in this system means a control holding a
+     glyph and no word, which none of these screens has. */
+  --r-ctl: 0;
+  --r-field: 0;
+  --r-card: 0;
+  --r-tag: 0;
+  /* 32px is the motion control, 40px the chrome action, 52px the emphasis
+     action. The field height is derived — the source is a one-pager with no
+     input in it. */
+  --h-sm: 32px;
+  --h-md: 40px;
+  --h-lg: 52px;
+  --field-h: 44px;
+  /* currentColor at seven pixels of offset, not two: on a page with no fills
+     to sit against, a ring drawn tight reads as part of the control. */
+  --focus: #000000;
+  --focus-ring: 2px;
+  --focus-offset: 7px;
+  --body-size: 13px;
+  --body-leading: 1.9;
+  --label-size: 10px;
+  --label-track: 0.16em;
+  --label-weight: 600;
+  --head-weight: 500;
+  /* The tightest heading on the page by a wide margin. The source's rule is
+     that the larger the type, the tighter it is set — a 100px title runs at
+     -0.077em and a 9px label at +0.15em. */
+  --head-track: -0.055em;
+  --font-ui: 'Manrope Variable', 'Pretendard Variable', Pretendard, 'Noto Sans KR',
+    'Apple SD Gothic Neo', system-ui, sans-serif;
+  /* There is no second face. Where the other five switch to a monospace for a
+     machine value, Lumen keeps Manrope and switches to tabular figures with
+     wider tracking, the way the source sets its own numerals in SVG
+     (fontSize="9" letterSpacing="1.1"). */
+  --font-mono: 'Manrope Variable', 'Pretendard Variable', Pretendard, 'Noto Sans KR',
+    'Apple SD Gothic Neo', system-ui, sans-serif;
+}
+
+/* The dark half is the swap and nothing else, because that is already what a
+   section boundary does four times on the way down the source page. */
+.ds[data-ds='lumen'][data-scheme='dark'] {
+  --bg: #000000;
+  --surface: #000000;
+  --subtle: #000000;
+  --raised: #000000;
+  --line: #ffffff;
+  --line-strong: #ffffff;
+  --ink: #ffffff;
+  --ink-soft: #ffffff;
+  --ink-faint: #ffffff;
+  --pri-bg: #ffffff;
+  --pri-fg: #000000;
+  --pri-line: #ffffff;
+  --gho-fg: #ffffff;
+  --gho-line: #ffffff;
+  --held-bg: #ffffff;
+  --held-fg: #000000;
+  --held-line: #ffffff;
+  --accent: #ffffff;
+  --accent-line: #ffffff;
+  --on-accent: #000000;
+  --ok: #ffffff;
+  --warn: #ffffff;
+  --danger: #ffffff;
+  --error: #ffffff;
+  --trend: #ffffff;
+  --focus: #ffffff;
 }

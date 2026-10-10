@@ -1,6 +1,7 @@
 @import url('./fonts/wanted-sans/wanted-sans.css');
 @import url('./fonts/jetbrains-mono/jetbrains-mono.css');
 @import url('./fonts/pretendard/pretendard.css');
+@import url('./fonts/manrope/manrope.css');
 @import url('./systems.css');
 
 /* ═══ Page chrome ═══════════════════════════════════════════════════════════
@@ -401,7 +402,7 @@ a {
 
 .ds :focus-visible {
   outline: var(--focus-ring) solid var(--focus);
-  outline-offset: 2px;
+  outline-offset: var(--focus-offset);
 }
 
 /* NightBrowser draws no ring at all — the control's own 1px border becomes
@@ -998,6 +999,114 @@ a {
   margin: 0;
   font-family: var(--font-mono);
   color: var(--ink);
+}
+
+/* ── Lumen's overrides ───────────────────────────────────────────────────────
+   Every other system fills the contract and stops. Lumen cannot, because five
+   of the shared rules reach for a value it does not have: a hover tint, a held
+   -back border, a focus wash, a smaller grey label. Each one below says which
+   rule it is standing in for and what in lumen/design.md it comes from. This
+   is the longest block on the page, and that length is the finding. */
+
+/* Hover is inversion or it is nothing. There is no third value to tint with,
+   so a control a reader presses inverts outright, and a row a reader reads
+   does not move at all — which happens by itself, since --subtle is the paper.
+   The source writes both halves down: the actions invert, and the nav links
+   and tabs declare `:hover { color: inherit }`, an explicit no-op. */
+.ds[data-ds='lumen'] .ds-btn:hover,
+.ds[data-ds='lumen'] .ds-seg button:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+
+.ds[data-ds='lumen'] .ds-btn[data-v='primary']:hover {
+  background: var(--bg);
+  color: var(--ink);
+  opacity: 1;
+}
+
+.ds[data-ds='lumen'] .ds-seg button[aria-pressed='true']:hover {
+  background: var(--held-bg);
+  color: var(--held-fg);
+}
+
+/* The shared destructive button holds its status colour back to 45% so it
+   reads as outlined rather than alarmed. Holding ink back produces grey, which
+   is the one thing this system forbids, so the control is simply the ruled one
+   and the word carries the warning. */
+.ds[data-ds='lumen'] .ds-btn[data-v='danger'] {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+/* Disabled stays on the contract's opacity. It is the one dimming the source
+   itself uses — the hairline under the hero sits at `opacity: .2` — and it is
+   not a third token, because nothing can be set to it. */
+
+/* One level of emphasis exists in this system and it is inversion, so the kind
+   that demands an answer takes the fill and sends its glyph to the paper. The
+   other two stay ruled. Nothing else on the screen inverts, or inversion stops
+   meaning anything — which is why this is the only rule of its kind here. */
+.ds[data-ds='lumen'] .ds-badge[data-tone='danger'] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+
+.ds[data-ds='lumen'] .ds-badge[data-tone='danger'] .ds-dot {
+  color: var(--bg);
+}
+
+/* A rule already drawn in ink cannot be darkened to mark a field filled in
+   wrongly, so it doubles instead — the same 2px the active resource tab uses,
+   and the system's whole emphasis vocabulary for a line. Inset, so the 1px
+   does not push anything. The focus wash goes the same way: a 25% ink glow is
+   a grey glow. */
+.ds[data-ds='lumen'] .ds-input[data-invalid] {
+  box-shadow: inset 0 0 0 1px var(--error);
+}
+
+.ds[data-ds='lumen'] .ds-error {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.ds[data-ds='lumen'] .ds-input:focus,
+.ds[data-ds='lumen'] .ds-select:focus {
+  box-shadow: inset 0 0 0 1px var(--focus);
+}
+
+/* The size rule, which is the whole hierarchy. With one ink, a quiet voice has
+   to be built out of size and tracking, and the source never once sets a label
+   at the body size: a caption is 7–10px at .13–.18em. These three sizes are
+   fixed in pixels by the contract rather than by a token, so this is the only
+   place on the page a system is allowed to move one — and leaving them would
+   draw Lumen's small voice in a voice it does not have. */
+.ds[data-ds='lumen'] .ds-stat__sub,
+.ds[data-ds='lumen'] .ds-field > span,
+.ds[data-ds='lumen'] .ds-badge,
+.ds[data-ds='lumen'] .ds-method {
+  font-size: 10px;
+  letter-spacing: 0.05em;
+}
+
+/* No second face, so a machine value is made of figures and tracking instead.
+   The headline number is the exception: it is display type, and display type
+   in this system gets tighter, not wider. */
+.ds[data-ds='lumen'] .ds-mono,
+.ds[data-ds='lumen'] .ds-path,
+.ds[data-ds='lumen'] .ds-table .num,
+.ds[data-ds='lumen'] .ds-facts dd,
+.ds[data-ds='lumen'] .ds-sw span,
+.ds[data-ds='lumen'] .ds-specimen code {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+.ds[data-ds='lumen'] .ds-stat__value {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
 }
 
 /* ── Footer ──────────────────────────────────────────────────────────────── */
