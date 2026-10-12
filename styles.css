@@ -396,7 +396,7 @@ a {
    reproduced the exact bug on the first address drawn, in both columns that
    use it. */
 .ds[data-ds='injective'],
-.ds[data-ds='agent-browser'] {
+.ds[data-ds='quartz'] {
   font-feature-settings: 'calt' 0, 'clig' 0;
 }
 
@@ -405,9 +405,9 @@ a {
   outline-offset: var(--focus-offset);
 }
 
-/* NightBrowser draws no ring at all — the control's own 1px border becomes
+/* Quartz draws no ring at all — the control's own 1px border becomes
    `text`, which is what --focus-ring: 0px leaves room for. */
-.ds[data-ds='agent-browser'] :focus-visible {
+.ds[data-ds='quartz'] :focus-visible {
   border-color: var(--focus);
 }
 
@@ -475,10 +475,18 @@ a {
   margin-bottom: 20px;
 }
 
-@container (max-width: 560px) {
+/* Four figures need roughly 175px each before the widest one wraps, and a
+   wrapped headline number is a rule none of the seven documents contains —
+   Slate and Prism both fix the summary card's height and put the value on one
+   line, and their source measures it. So the strip folds to two columns while
+   there is still room, not once the number has already broken. */
+@container (max-width: 700px) {
   .ds-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
+
+@container (max-width: 560px) {
   .ds-head__actions {
     margin-left: 0;
   }
@@ -554,7 +562,7 @@ a {
 }
 
 /* Table — the only thing allowed to be wider than its column, and then only
-   inside its own scroller. NightBrowser's 14px body is what finds this edge. */
+   inside its own scroller. Quartz's 14px body is what finds this edge. */
 .ds-scroll {
   overflow-x: auto;
 }
@@ -693,7 +701,7 @@ a {
 
 /* Badges and status.
    Two treatments, because the systems genuinely disagree: Slate tints a pill
-   with the status colour, while Charcoal, Injective and NightBrowser give it a
+   with the status colour, while Charcoal, Injective, Quartz and Prism give it a
    border for its kind and let the word carry the rest. */
 .ds-badge {
   display: inline-flex;
@@ -827,7 +835,7 @@ a {
 }
 
 /* A field filled in wrongly. The error colour reaches the border and the
-   message and stops there — it is the one hue NightBrowser spends, and the
+   message and stops there — it is the one hue Quartz spends, and the
    only place Graphite would spend one if it spent any (it does not, so its
    message is the brightest ink and the border is line-strong). The message
    mounts when it has something to say; none of the five reserves a blank line

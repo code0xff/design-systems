@@ -47,8 +47,8 @@ const SYSTEMS = [
     line: 'Charcoal의 구조에 Injective의 브랜드. 쥐고 있는 것은 모두 Ocean으로 채운다.',
   },
   {
-    id: 'agent-browser',
-    name: 'NightBrowser',
+    id: 'quartz',
+    name: 'Quartz',
     schemes: ['light', 'dark'],
     preferred: 'light',
     status: 'outline',
@@ -56,6 +56,17 @@ const SYSTEMS = [
     note: '모노크롬 · 글자 역할 둘',
     swatch: ['#f4f4f3', '#171719'],
     line: '둥근 모서리의 모노크롬 작업대. 글자 역할이 text와 muted 둘뿐이다.',
+  },
+  {
+    id: 'prism',
+    name: 'Prism',
+    schemes: ['light', 'dark'],
+    preferred: 'light',
+    status: 'tint',
+    mark: 'dot',
+    note: 'Quartz의 기하 · 색을 되돌림',
+    swatch: ['#f4f4f3', '#2456d6'],
+    line: 'Quartz와 중성색·모서리가 한 글자도 다르지 않다. 다른 것은 뜻을 지닌 것에 색을 되돌려 준 것뿐이다.',
   },
   {
     id: 'lumen',
@@ -113,7 +124,12 @@ function readState() {
   const mode = params.get('mode');
   if (mode === 'single' || mode === 'compare') state.mode = mode;
 
-  const ids = (params.get('ds') || '').split(',').filter((id) => SYSTEMS.some((s) => s.id === id));
+  // 이름이 바뀌기 전에 공유된 주소가 빈 화면을 열지 않게 한다.
+  const RENAMED = { 'agent-browser': 'quartz' };
+  const ids = (params.get('ds') || '')
+    .split(',')
+    .map((id) => RENAMED[id] || id)
+    .filter((id) => SYSTEMS.some((s) => s.id === id));
   if (ids.length > 0) state.selected = ids;
 
   let scheme = params.get('scheme');

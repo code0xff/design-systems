@@ -3,7 +3,7 @@
    look by changing `data-ds` on its frame and never by changing its markup. The values come from
    each system's own design.md; where a system has no equivalent for a name, the gap is the point
    and is filled with what that system would actually use (Graphite has no accent colour, so its
-   accent is a luminance step; NightBrowser has two text roles, so faint and soft are the same). */
+   accent is a luminance step; Quartz has two text roles, so faint and soft are the same). */
 
 .ds {
   /* Shape */
@@ -42,11 +42,11 @@
      the one place on this page a value is derived rather than quoted. */
   --trend: var(--ink);
   /* A field filled in wrongly. Four of the five reuse their danger colour for
-     it; NightBrowser is monochrome everywhere else and keeps a red for only
+     it; Quartz is monochrome everywhere else and keeps a red for only
      this, so it declares its own. */
   --error: var(--danger-text, var(--danger));
   /* Focus. Slate rings in the accent, Charcoal in line-hover, Injective in
-     Ocean, and NightBrowser changes the border itself and draws no ring. */
+     Ocean, and Quartz changes the border itself and draws no ring. */
   --focus: var(--line-strong);
   --focus-ring: 2px;
   /* How far clear of the control the ring is drawn. Five of the six leave it
@@ -384,11 +384,11 @@
   --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
-/* ── NightBrowser ───────────────────────────────────────────────────────────
-   agent-browser/design.md. A rounded monochrome workbench. Two text roles only
+/* ── Quartz ─────────────────────────────────────────────────────────────────
+   quartz/design.md. A rounded monochrome workbench. Two text roles only
    (text and muted), a primary action that is a solid inverse block, secondary
    actions outlined with a soft hover, and status carried by shape and words. */
-.ds[data-ds='agent-browser'] {
+.ds[data-ds='quartz'] {
   --bg: #f4f4f3;
   --surface: #ffffff;
   --subtle: #eeeeef;
@@ -444,7 +444,7 @@
   --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
-.ds[data-ds='agent-browser'][data-scheme='dark'] {
+.ds[data-ds='quartz'][data-scheme='dark'] {
   --bg: #111112;
   --surface: #19191b;
   --subtle: #232326;
@@ -598,4 +598,115 @@
   --error: #ffffff;
   --trend: #ffffff;
   --focus: #ffffff;
+}
+
+/* ── Prism ──────────────────────────────────────────────────────────────────
+   prism/design.md. Quartz's ladder, corner scale and inverted primary action
+   with colour given back to everything that carries meaning.
+
+   Diffed against the Quartz block above, 10 of the 21 contract values are
+   identical and 11 differ, which is worth stating exactly rather than calling
+   this a palette swap:
+
+     identical  bg surface subtle line ink ink-faint r-ctl r-card h-sm h-md
+     colour     accent ok warn danger focus
+     from Slate ink-soft (a third text role) line-strong body-size 13px
+                field-h 40px h-lg 44px
+     its own    r-tag 4px, for the method tag and nothing else
+
+   So the grounds and the control corners are Quartz's, the size contract and
+   the reading ladder are Slate's, and only the five colour rows are new. */
+.ds[data-ds='prism'] {
+  --bg: #f4f4f3;
+  --surface: #ffffff;
+  --subtle: #eeeeef;
+  --raised: #ffffff;
+  --line: #dedee1;
+  --line-strong: #c6c6cb;
+  --ink: #171719;
+  /* Unlike Quartz, this system has three text roles: a console reads longer
+     than a chrome does, and the floor is measured on surface, subtle and the
+     soft washes alike. */
+  --ink-soft: #4f4f55;
+  --ink-faint: #66666c;
+  --pri-bg: #171719;
+  --pri-fg: #ffffff;
+  --pri-line: #171719;
+  --gho-bg: transparent;
+  --gho-fg: #171719;
+  --gho-line: #dedee1;
+  --held-bg: #171719;
+  --held-fg: #ffffff;
+  --held-line: #171719;
+  /* Blue, and deliberately not the primary action: a coloured button would
+     compete with the status colours and with the accent that says where the
+     reader is. */
+  --accent: #2456d6;
+  --accent-soft: #edf2ff;
+  --on-accent: #ffffff;
+  --ok: #157a3a;
+  --ok-soft: #e8f6ed;
+  --warn: #9a4a06;
+  --warn-soft: #fdf2e3;
+  --danger: #b91c1c;
+  --danger-soft: #fdeeee;
+  --trend: #157a3a;
+  /* Quartz's one colour, kept exactly, with four more added around it. */
+  --error: #b91c1c;
+  --dots: rgba(23, 23, 25, 0.06);
+  --shadow: 0 1px 2px rgb(23 23 25 / 0.05), 0 18px 44px rgb(23 23 25 / 0.1);
+  --focus: #2456d6;
+  --focus-ring: 2px;
+
+  --r-ctl: 8px;
+  --r-field: 8px;
+  --r-card: 12px;
+  /* 4px, and the only place it is used is a method tag. */
+  --r-tag: 4px;
+  --h-sm: 28px;
+  --h-md: 36px;
+  --h-lg: 44px;
+  --field-h: 40px;
+  --body-size: 13px;
+  --body-leading: 1.55;
+  --label-track: 0.14em;
+  --head-weight: 500;
+  --head-track: -0.01em;
+  --font-ui: 'Wanted Sans Variable', 'Pretendard Variable', Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, 'Apple SD Gothic Neo', sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.ds[data-ds='prism'][data-scheme='dark'] {
+  --bg: #111112;
+  --surface: #19191b;
+  --subtle: #232326;
+  --raised: #1f1f22;
+  --line: #2e2e32;
+  --line-strong: #46464c;
+  --ink: #f2f2f3;
+  --ink-soft: #c3c3c9;
+  --ink-faint: #a3a3aa;
+  --pri-bg: #f2f2f3;
+  --pri-fg: #111112;
+  --pri-line: #f2f2f3;
+  --gho-fg: #f2f2f3;
+  --gho-line: #2e2e32;
+  --held-bg: #f2f2f3;
+  --held-fg: #111112;
+  --held-line: #f2f2f3;
+  --accent: #85a6ff;
+  --accent-soft: rgb(133 166 255 / 0.14);
+  --on-accent: #0b1020;
+  --ok: #6ee39a;
+  --ok-soft: rgb(110 227 154 / 0.12);
+  --warn: #f6c35b;
+  --warn-soft: rgb(246 195 91 / 0.12);
+  --danger: #fca5a5;
+  --danger-soft: rgb(252 165 165 / 0.13);
+  --trend: #6ee39a;
+  --error: #fca5a5;
+  --dots: rgba(242, 242, 243, 0.05);
+  --focus: #85a6ff;
+  --shadow: 0 0 0 1px rgb(0 0 0 / 0.35), 0 20px 56px rgb(0 0 0 / 0.5);
 }
