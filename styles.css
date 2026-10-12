@@ -393,10 +393,13 @@ a {
 /* Pretendard sets `0x1F` as `0×1F` and `<=>` as an arrow through calt/clig.
    A product showing 0x addresses cannot have a face quietly editing them, so
    Injective's document drops both features — and bundling the real face here
-   reproduced the exact bug on the first address drawn, in both columns that
-   use it. */
+   reproduced the exact bug on the first address drawn, in every column that
+   uses it. Prism joined them when its interface face became Pretendard: it is
+   the one column that draws coloured HTTP methods beside paths, so a face that
+   edits `0x` would be at its most visible there. */
 .ds[data-ds='injective'],
-.ds[data-ds='quartz'] {
+.ds[data-ds='quartz'],
+.ds[data-ds='prism'] {
   font-feature-settings: 'calt' 0, 'clig' 0;
 }
 

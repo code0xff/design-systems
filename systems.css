@@ -691,8 +691,12 @@
   --label-track: 0.14em;
   --head-weight: 500;
   --head-track: -0.01em;
-  --font-ui: 'Wanted Sans Variable', 'Pretendard Variable', Pretendard, -apple-system,
-    BlinkMacSystemFont, system-ui, 'Apple SD Gothic Neo', sans-serif;
+  /* Prism parts from Slate here: the interface face is Pretendard, Quartz's,
+     not Wanted Sans. The mono face stays JetBrains Mono, so machine values read
+     the same across both parents. Pretendard's calt/clig are switched off for
+     this column too — see styles.css. */
+  --font-ui: 'Pretendard Variable', Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui,
+    sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
