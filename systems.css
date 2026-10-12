@@ -1,4 +1,4 @@
-/* One variable contract, five fillings.
+/* One variable contract, seven fillings.
    Every sample screen is written against the names below and nothing else, so a screen changes
    look by changing `data-ds` on its frame and never by changing its markup. The values come from
    each system's own design.md; where a system has no equivalent for a name, the gap is the point
@@ -41,9 +41,10 @@
      -text pair below is the same hue lifted to a readable lightness, and is
      the one place on this page a value is derived rather than quoted. */
   --trend: var(--ink);
-  /* A field filled in wrongly. Four of the five reuse their danger colour for
+  /* A field filled in wrongly. Four of the seven reuse their danger colour for
      it; Quartz is monochrome everywhere else and keeps a red for only
-     this, so it declares its own. */
+     this, so it declares its own; Graphite and Lumen have no red to reuse and
+     say so in their own overrides. */
   --error: var(--danger-text, var(--danger));
   /* Focus. Slate rings in the accent, Charcoal in line-hover, Injective in
      Ocean, and Quartz changes the border itself and draws no ring. */
@@ -53,7 +54,11 @@
      at two; Lumen sets seven, because on a page with no fills a ring drawn
      tight to a control reads as part of the control. */
   --focus-offset: 2px;
+  /* The readable half of each status colour. All three exist so a component
+     never has to guess whether a system's status token is a border value or a
+     text value; where a system draws no distinction the two are the same. */
   --ok-text: var(--ok);
+  --warn-text: var(--warn);
   --danger-text: var(--danger);
   --font-ui: system-ui, sans-serif;
   --font-mono: ui-monospace, monospace;
@@ -232,6 +237,11 @@
   --warn-soft: rgba(0, 0, 0, 0.06);
   --danger: #050505;
   --danger-soft: rgba(0, 0, 0, 0.06);
+  /* The light half mirrors every token above it, and this is the one it used
+     to miss: the dark ring is #cfcfd6, which is the warn step of the dark
+     ladder, so the light ring is the warn step of the light one. Left
+     inherited it drew a 1.45:1 ring on white, which is no ring. */
+  --focus: #2c2c33;
   --grid: rgba(0, 0, 0, 0.05);
   --dots: rgba(0, 0, 0, 0.05);
 }
@@ -321,6 +331,9 @@
   --warn: oklch(80% 0.12 80);
   --danger: oklch(65% 0.16 25);
   --danger-text: oklch(48% 0.17 25);
+  /* `line-hover` is the focus ring, and the dark half puts it on ink-soft.
+     Same step, light side — inherited from the dark block it was 2.51:1. */
+  --focus: #45454d;
   --grid: rgba(0, 0, 0, 0.05);
   --dots: rgba(0, 0, 0, 0.05);
 }
@@ -418,9 +431,15 @@
   --danger: #171719;
   --danger-soft: #eeeeef;
   --dots: rgba(23, 23, 25, 0.06);
-  /* The border itself becomes `text` on focus; there is no second outline. */
+  /* Quartz splits focus by control. A field changes its own 1px border to
+     `text` and draws no second outline; a button takes a 1px outline in
+     `text`, and a filled primary leaves a 2px gap. The ring token is therefore
+     1px, not 0 — at 0 the primary action, whose resting border is already
+     `text`, had no focus state at all, and the segmented buttons, which carry
+     no border to recolour, had none either. */
   --focus: #171719;
-  --focus-ring: 0px;
+  --focus-ring: 1px;
+  --focus-offset: 0px;
 
   --r-ctl: 8px;
   --r-field: 8px;
@@ -561,7 +580,7 @@
   --head-track: -0.055em;
   --font-ui: 'Manrope Variable', 'Pretendard Variable', Pretendard, 'Noto Sans KR',
     'Apple SD Gothic Neo', system-ui, sans-serif;
-  /* There is no second face. Where the other five switch to a monospace for a
+  /* There is no second face. Where the other six switch to a monospace for a
      machine value, Lumen keeps Manrope and switches to tabular figures with
      wider tracking, the way the source sets its own numerals in SVG
      (fontSize="9" letterSpacing="1.1"). */

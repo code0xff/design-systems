@@ -5,7 +5,7 @@
 @import url('./systems.css');
 
 /* ═══ Page chrome ═══════════════════════════════════════════════════════════
-   The chrome is Slate's, because one of the five has to hold the page and
+   The chrome is Slate's, because one of the seven has to hold the page and
    Slate is the one written for a console. It keeps its own tokens under
    --c-* so a preview frame below can never inherit them by accident. */
 
@@ -372,7 +372,7 @@ a {
 /* ═══ The sample screens ════════════════════════════════════════════════════
    Everything below is written against the --ds contract in systems.css and
    never against a chrome token. That is the whole experiment: identical
-   markup, identical rules, five fillings. */
+   markup, identical rules, seven fillings. */
 
 .ds {
   --glyph-ok: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%20stroke='%23000'%20stroke-width='2.6'%20stroke-linecap='round'%20stroke-linejoin='round'%3E%3Cpath%20d='M20%206%209%2017l-5-5'/%3E%3C/svg%3E");
@@ -405,10 +405,35 @@ a {
   outline-offset: var(--focus-offset);
 }
 
-/* Quartz draws no ring at all — the control's own 1px border becomes
-   `text`, which is what --focus-ring: 0px leaves room for. */
-.ds[data-ds='quartz'] :focus-visible {
+/* Quartz is the one system whose document splits focus by control: a field
+   changes its own border and draws no second outline, a button takes a 1px
+   outline, and a filled primary leaves a 2px gap. */
+.ds[data-ds='quartz'] .ds-input:focus-visible,
+.ds[data-ds='quartz'] .ds-select:focus-visible {
   border-color: var(--focus);
+  outline: 0;
+}
+
+.ds[data-ds='quartz'] .ds-btn[data-v='primary']:focus-visible {
+  outline-offset: 2px;
+}
+
+/* Quartz scopes its one red to a field filled in wrongly — "the message under
+   the input and that input's border", and nowhere else. The shared
+   destructive button reaches for the same token, which puts the red on a
+   control the document does not allow it on, and contradicts this page's own
+   palette panel two screens down, where danger is drawn as near-black. So the
+   control is the ordinary outlined secondary the document does describe, and
+   the word carries the warning — the same answer Lumen gives below for the
+   same reason. */
+.ds[data-ds='quartz'] .ds-btn[data-v='danger'] {
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+.ds[data-ds='quartz'] .ds-btn[data-v='danger']:hover {
+  border-color: var(--ink);
+  background: var(--subtle);
 }
 
 .ds h3,
@@ -489,11 +514,6 @@ a {
 @container (max-width: 560px) {
   .ds-head__actions {
     margin-left: 0;
-  }
-  .ds-table th,
-  .ds-table td {
-    padding-left: 11px;
-    padding-right: 11px;
   }
 }
 
@@ -593,6 +613,32 @@ a {
   vertical-align: middle;
 }
 
+/* The table's gutters, and they have to be stated after the two rules above,
+   not before them: at equal specificity the later rule wins, so the narrow
+   step used to be written higher up and quietly never applied at any width.
+
+   Three columns on a laptop put each frame at about 415px, and at 16px gutters
+   the table ran 7–33px over — the money, which is the one thing this screen is
+   named after, sat just past the right edge in all seven at once. The scroller
+   was doing its job and nobody was going to use it seven times. Eight-pixel
+   gutters clear all seven including Quartz, whose 14px body is the widest of
+   them and the one that found this edge in the first place. */
+@container (max-width: 560px) {
+  .ds-table th,
+  .ds-table td {
+    padding-left: 11px;
+    padding-right: 11px;
+  }
+}
+
+@container (max-width: 440px) {
+  .ds-table th,
+  .ds-table td {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
 .ds-table tr:last-child td {
   border-bottom: 0;
 }
@@ -619,6 +665,18 @@ a {
   font-size: 11px;
   letter-spacing: 0.04em;
   color: var(--ink-faint);
+}
+
+/* Method and path share a cell and wrap on their own, which means the row
+   carrying the widest badge wraps while the two above it do not — three rows
+   of a four-row table at three different heights. A table's rhythm is not
+   something any of the seven documents leaves to how long a word happens to
+   be, so below the width where the first one breaks, they all break. */
+@container (max-width: 620px) {
+  .ds-method {
+    display: block;
+    min-width: 0;
+  }
 }
 
 .ds-path {
@@ -700,9 +758,10 @@ a {
 }
 
 /* Badges and status.
-   Two treatments, because the systems genuinely disagree: Slate tints a pill
-   with the status colour, while Charcoal, Injective, Quartz and Prism give it a
-   border for its kind and let the word carry the rest. */
+   Two treatments, because the systems genuinely disagree. Graphite, Slate and
+   Prism tint a pill with the status colour; Charcoal, Injective, Quartz and
+   Lumen give it a border for its kind and let the word carry the rest. Which
+   of the two a system takes arrives as data-status, beside it in app.js. */
 .ds-badge {
   display: inline-flex;
   align-items: center;
@@ -721,13 +780,13 @@ a {
 .ds-badge[data-tone='ok'] {
   background: var(--ok-soft);
   border-color: var(--ok);
-  color: var(--ok);
+  color: var(--ok-text);
 }
 
 .ds-badge[data-tone='warn'] {
   background: var(--warn-soft);
   border-color: var(--warn);
-  color: var(--warn);
+  color: var(--warn-text);
 }
 
 .ds-badge[data-tone='danger'] {
@@ -744,8 +803,8 @@ a {
   background: transparent;
 }
 
-/* The badge's mark. Slate draws a dot and lets the label carry the meaning;
-   the other four draw an icon, because that is what their documents say the
+/* The badge's mark. Slate and Prism draw a dot and let the label carry the
+   meaning; the other five draw an icon, because that is what their documents say the
    mark is for — "the icon carries the rest", "shown with icons", "shape and
    words". The glyph is a mask over currentColor, so it takes the badge's own
    colour in a system that has one and its luminance step in a system that
@@ -838,13 +897,17 @@ a {
    message and stops there — it is the one hue Quartz spends, and the
    only place Graphite would spend one if it spent any (it does not, so its
    message is the brightest ink and the border is line-strong). The message
-   mounts when it has something to say; none of the five reserves a blank line
+   mounts when it has something to say; none of the seven reserves a blank line
    under every field for one that may never come. */
 .ds-input[data-invalid] {
   border-color: var(--error);
 }
 
-.ds-error {
+/* `.ds-field > span` sets the label colour, and the message is also a direct
+   span child of the field, so a bare `.ds-error` lost to it on specificity and
+   five of the seven drew a red border with a grey message under it. The child
+   combinator here only matches what the label rule already matched. */
+.ds-field > .ds-error {
   font-size: 11px;
   line-height: 16px;
   color: var(--error);
@@ -858,7 +921,7 @@ a {
   color: var(--ink);
 }
 
-/* Segmented — a held control inverts, in every one of the five */
+/* Segmented — a held control inverts, in every one of the seven */
 .ds-seg {
   display: inline-flex;
   align-items: center;
