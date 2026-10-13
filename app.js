@@ -20,7 +20,7 @@ const SYSTEMS = [
     preferred: 'light',
     status: 'tint',
     mark: 'dot',
-    note: '보라 악센트 하나 · Wanted Sans',
+    note: '보라 악센트 하나 · 알약 컨트롤',
     swatch: ['#faf9fb', '#6d5bd0'],
     line: '라일락이 도는 중성색 위에 상태색과 보라 악센트 하나. 누르는 것은 모두 알약이다.',
   },

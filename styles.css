@@ -1,4 +1,3 @@
-@import url('./fonts/wanted-sans/wanted-sans.css');
 @import url('./fonts/jetbrains-mono/jetbrains-mono.css');
 @import url('./fonts/pretendard/pretendard.css');
 @import url('./fonts/manrope/manrope.css');
@@ -23,7 +22,7 @@
   --c-pri-bg: #12101a;
   --c-pri-fg: #faf9fb;
   --c-shadow: 0 1px 2px rgb(18 16 26 / 0.05), 0 18px 44px rgb(18 16 26 / 0.09);
-  --c-font: 'Wanted Sans Variable', -apple-system, BlinkMacSystemFont, system-ui,
+  --c-font: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
     'Apple SD Gothic Neo', sans-serif;
   --c-mono: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
   color-scheme: light;
@@ -57,6 +56,8 @@ body {
   background: var(--c-bg);
   color: var(--c-ink);
   font-family: var(--c-font);
+  /* Pretendard's calt/clig off for the whole page; see the note further down. */
+  font-feature-settings: 'calt' 0, 'clig' 0;
   font-size: 14px;
   line-height: 1.55;
   word-break: keep-all;
@@ -394,13 +395,17 @@ a {
    A product showing 0x addresses cannot have a face quietly editing them, so
    Injective's document drops both features — and bundling the real face here
    reproduced the exact bug on the first address drawn, in every column that
-   uses it. Prism joined them when its interface face became Pretendard: it is
-   the one column that draws coloured HTTP methods beside paths, so a face that
-   edits `0x` would be at its most visible there. */
-.ds[data-ds='injective'],
-.ds[data-ds='quartz'],
-.ds[data-ds='prism'] {
-  font-feature-settings: 'calt' 0, 'clig' 0;
+   uses it. Pretendard is now the interface face of four of the seven columns
+   and of the page chrome, so the switch is thrown once, in the `body` rule at
+   the top of this file. The three columns that are not Pretendard take their
+   features back here: Graphite and Charcoal are set in JetBrains Mono and no
+   document asks for a code face stripped of its ligatures, and Lumen is
+   Manrope, reaching Pretendard only for Korean, which has nothing for the
+   feature to edit. */
+.ds[data-ds='graphite'],
+.ds[data-ds='charcoal'],
+.ds[data-ds='lumen'] {
+  font-feature-settings: normal;
 }
 
 .ds :focus-visible {
