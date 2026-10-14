@@ -124,11 +124,9 @@ function readState() {
   const mode = params.get('mode');
   if (mode === 'single' || mode === 'compare') state.mode = mode;
 
-  // 이름이 바뀌기 전에 공유된 주소가 빈 화면을 열지 않게 한다.
-  const RENAMED = { 'agent-browser': 'quartz' };
+  // 모르는 id는 떨군다 — 남은 게 없으면 기본 선택이 그대로 열린다.
   const ids = (params.get('ds') || '')
     .split(',')
-    .map((id) => RENAMED[id] || id)
     .filter((id) => SYSTEMS.some((s) => s.id === id));
   if (ids.length > 0) state.selected = ids;
 
