@@ -948,6 +948,36 @@ a {
   font-size: var(--body-size);
 }
 
+/* A native select paints its own widget, so the border, the radius and the
+   ground all compute to this system's values and none of them reach the screen:
+   every column drew the browser's control next to its own input. The computed
+   styles matched the input exactly in all seven, which is why reading the CSS
+   never showed it. Turning the appearance off hands the box back to the tokens,
+   and the arrow is drawn here so it takes the system's own ink rather than the
+   platform's grey. `--ink-soft` is the ink itself in Lumen, which has no
+   quieter one to offer. */
+.ds-select {
+  appearance: none;
+  padding-right: 32px;
+}
+
+.ds-field {
+  position: relative;
+}
+
+.ds-field:has(.ds-select)::after {
+  content: '';
+  position: absolute;
+  right: 14px;
+  bottom: calc(var(--field-h, var(--h-md)) / 2 - 3.5px);
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid var(--ink-soft);
+  border-bottom: 1.5px solid var(--ink-soft);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
 .ds-input::placeholder {
   color: var(--ink-faint);
 }
